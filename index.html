@@ -1,1506 +1,1761 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#4A7C91" />
-  <meta name="description" content="Learn90 Mathe-App PRO – Visuelle Rechenwege" />
-  <title>Learn90 Mathe PRO – Vorschule bis Klasse 4</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#4A7C91">
+  <title>Mathe üben – Kidsneed</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Fira+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
 
   <style>
+    /* ============================================
+       KIDSNEED DESIGN SYSTEM
+       ============================================ */
+    
     :root {
-      --s-1: 8px; --s-2: 16px; --s-3: 24px; --s-4: 32px; --s-5: 48px;
-      --radius-sm: 12px; --radius-md: 16px; --radius-lg: 24px; --radius-xl: 28px;
-      --bg-canvas: #F5F0E8; --bg-card: #FFFFFF; --bg-muted: #EDE8DC;
-      --ink-primary: #2D2A26; --ink-secondary: #6B665C; --ink-light: #9C9588;
-      --col-math: #4A7C91; --col-highlight: #C9A66B;
-      --feedback-success: #7BA08A; --feedback-error: #C4726C;
-      --shadow-subtle: 0 1px 3px rgba(45, 42, 38, 0.06);
-      --shadow-soft: 0 2px 8px rgba(45, 42, 38, 0.08);
-      --shadow-medium: 0 4px 16px rgba(45, 42, 38, 0.12);
-      --hover-lift: translateY(-1px);
-      --text-xs: 11px; --text-sm: 12px; --text-base: 14px;
-      --text-md: 16px; --text-lg: 18px; --text-xl: 20px; --text-2xl: 24px;
-      --motion-fast: 150ms; --motion-base: 300ms; --motion-slow: 500ms;
+      /* Spacing (8px Grid) */
+      --s-1: 8px;
+      --s-2: 16px;
+      --s-3: 24px;
+      --s-4: 32px;
+      --s-5: 48px;
+
+      /* Radii */
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 28px;
+
+      /* Shadows */
+      --shadow-soft: 0 2px 10px rgba(45,42,38,.10);
+      --shadow-subtle: 0 1px 3px rgba(45,42,38,.06);
+
+      /* Colors – Kidsneed Palette */
+      --bg-canvas: #F5F0E8;
+      --bg-card: #FFFFFF;
+      --bg-muted: #EDE8DC;
+
+      --ink-primary: #2D2A26;
+      --ink-secondary: #6B665C;
+      --ink-light: #9C9588;
+
+      /* Modul-Akzent: Mathe = Blau-Grün */
+      --accent: #4A7C91;
+      --accent-light: rgba(74,124,145,.12);
+      --accent-dark: #3A6275;
+
+      /* Feedback */
+      --color-success: #7BA08A;
+      --color-success-bg: rgba(123,160,138,.15);
+      --color-error: #C4726C;
+      --color-error-bg: rgba(196,114,108,.15);
+      --color-warn: #D4A574;
+      --color-warn-bg: rgba(212,165,116,.15);
+
+      /* Typography */
+      --text-2xl: 24px;
+      --text-xl: 20px;
+      --text-lg: 18px;
+      --text-md: 16px;
+      --text-sm: 14px;
+      --text-xs: 12px;
+
+      /* Motion */
+      --motion-fast: 150ms;
+      --motion-base: 260ms;
       --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
-      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --app-max-w: 480px; --accent: var(--col-math);
-      --font: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'Fira Mono', 'Courier New', monospace;
+
+      /* Layout */
+      --app-max-w: 560px;
+      --font: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
-    input, textarea, select { user-select: text; }
-    *:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-sm); }
-    button:focus-visible { transform: scale(1.02); transition: transform var(--motion-fast) var(--ease-out); }
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent; 
+    }
+    
+    html, body { height: 100%; }
+    
+    body {
+      margin: 0;
+      background: var(--bg-canvas);
+      color: var(--ink-primary);
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: var(--text-md);
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    *:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
       }
     }
-    @media (prefers-contrast: high) {
-      .btn-answer, .level-btn { border-width: 4px; }
-      *:focus-visible { outline-width: 4px; }
+
+    /* === APP FRAME === */
+    .app-frame {
+      width: 100%;
+      height: 100%;
+      background: var(--bg-card);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
     }
 
-    body {
-      margin: 0; padding: 0; background: var(--bg-canvas);
-      font-family: var(--font); font-weight: 500; font-size: var(--text-md); line-height: 1.5;
-      color: var(--ink-primary); height: 100dvh; width: 100vw; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    #app-frame {
-      background: var(--bg-card); width: 100%; height: 100%;
-      position: relative; display: flex; flex-direction: column; overflow: hidden;
-    }
-
-    @media (min-width: 480px) { body { padding: var(--s-2); } }
     @media (min-width: 520px) {
       body { padding: var(--s-3); }
-      #app-frame {
-        max-width: var(--app-max-w); height: 94dvh; max-height: 860px;
-        border-radius: var(--radius-lg); border: 3px solid var(--ink-primary);
+      .app-frame {
+        max-width: var(--app-max-w);
+        height: 94dvh;
+        max-height: 920px;
+        border: 3px solid var(--ink-primary);
+        border-radius: var(--radius-lg);
         box-shadow: var(--shadow-subtle);
       }
     }
 
+    /* === HEADER === */
     header {
-      flex: 0 0 auto; height: 72px; padding: 0 var(--s-3);
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--bg-card); border-bottom: 3px solid var(--ink-primary);
+      height: 72px;
+      padding: 0 var(--s-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-2);
+      border-bottom: 3px solid var(--ink-primary);
+      background: var(--bg-card);
+      flex: 0 0 auto;
     }
-    .brand { display: flex; flex-direction: column; gap: 2px; }
-    .brand-title { font-size: var(--text-xl); font-weight: 900; letter-spacing: -0.02em; color: var(--ink-primary); }
-    .brand-subtitle { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-secondary); }
-    .score-badge {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--bg-muted); padding: 12px 16px; min-height: 48px;
-      border-radius: var(--radius-sm); border: 2px solid var(--ink-primary);
-      transition: transform var(--motion-base) var(--ease-out);
-    }
-    .score-badge.pulse { animation: scorePulse 0.4s var(--ease-bounce); }
-    .score-badge span:first-child { font-size: var(--text-lg); }
-    .score-badge span:last-child { font-size: var(--text-md); font-weight: 800; color: var(--ink-primary); }
 
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: var(--text-xl);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: var(--s-1);
+    }
+
+    .brand-subtitle {
+      font-size: var(--text-xs);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--ink-secondary);
+    }
+
+    .header-stats {
+      display: flex;
+      gap: var(--s-1);
+      align-items: center;
+    }
+
+    /* === PILL (Stats) === */
+    .pill {
+      min-height: 48px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--ink-primary);
+      background: var(--bg-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+      cursor: pointer;
+      transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+    }
+
+    .pill:hover {
+      box-shadow: var(--shadow-soft);
+      transform: translateY(-1px);
+    }
+
+    .pill:active {
+      transform: scale(0.98);
+      box-shadow: none;
+    }
+
+    .pill .icon { font-size: 16px; }
+    .pill .val { 
+      font-weight: 900; 
+      font-size: var(--text-sm);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* === VIEWPORT (Main Content) === */
     .viewport {
-      flex: 1; overflow-y: auto; overflow-x: hidden; padding: var(--s-3);
-      overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: var(--s-3);
+      background:
+        radial-gradient(1200px 340px at 50% 0%, rgba(74,124,145,.08), transparent 60%),
+        var(--bg-card);
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
-    .viewport::-webkit-scrollbar { width: 4px; }
-    .viewport::-webkit-scrollbar-thumb { background: var(--ink-light); border-radius: 99px; }
 
-    footer {
-      flex: 0 0 auto; padding: var(--s-2) var(--s-3);
-      padding-bottom: max(var(--s-2), env(safe-area-inset-bottom));
-      background: var(--bg-card); border-top: 3px solid var(--ink-primary);
-      display: flex; gap: var(--s-2);
-    }
-    .footer-btn {
-      flex: 1; min-height: 48px; border: 2px solid var(--ink-primary); background: var(--bg-card);
-      border-radius: var(--radius-sm); font-family: var(--font); font-weight: 700; font-size: var(--text-base);
-      color: var(--ink-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: background var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
-    }
-    .footer-btn:hover { background: rgba(0, 0, 0, 0.02); transform: var(--hover-lift); box-shadow: var(--shadow-soft); }
-    .footer-btn:active { transform: translateY(1px); box-shadow: none; }
-    .footer-btn.accent { color: var(--accent); font-weight: 800; }
-
-    .level-selector {
-      display: flex; gap: var(--s-1); margin-bottom: var(--s-3);
-      justify-content: center; flex-wrap: wrap;
-    }
-    .level-btn {
-      padding: 12px 16px; min-height: 48px; border: 2px solid var(--ink-primary);
-      border-radius: var(--radius-sm); background: var(--bg-card);
-      font-family: var(--font); font-weight: 700; font-size: var(--text-base);
-      color: var(--ink-primary); cursor: pointer;
-      transition: background var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
-    }
-    .level-btn.active { background: var(--accent); color: var(--bg-card); }
-    .level-btn:hover:not(.active) { background: rgba(0, 0, 0, 0.02); transform: var(--hover-lift); box-shadow: var(--shadow-soft); }
-    .level-btn:active { transform: translateY(1px); }
-
-    .task-card {
-      background: var(--bg-card); border: 3px solid var(--ink-primary);
-      border-radius: var(--radius-md); padding: var(--s-4) var(--s-3);
-      text-align: center; margin-bottom: var(--s-3);
-      animation: fadeIn var(--motion-base) var(--ease-out);
+    /* === CARD === */
+    .card {
+      border: 3px solid var(--ink-primary);
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
       box-shadow: var(--shadow-subtle);
-    }
-    .task-label { font-size: var(--text-sm); font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: var(--s-1); }
-    .task-prompt { font-size: var(--text-2xl); font-weight: 900; line-height: 1.3; color: var(--ink-primary); white-space: pre-wrap; }
-    .task-prompt.small { font-size: var(--text-lg); }
-
-    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); max-width: 400px; margin: 0 auto; }
-    .choices.single-col { grid-template-columns: 1fr; }
-    .btn-answer {
-      min-height: 64px; background: var(--bg-card); border: 3px solid var(--ink-primary);
-      border-radius: var(--radius-lg); font-family: var(--font); font-size: var(--text-md); font-weight: 700;
-      color: var(--ink-primary); cursor: pointer; display: flex; align-items: center; justify-content: center;
-      padding: var(--s-2); white-space: pre-wrap; line-height: 1.3;
-      transition: background var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out);
-    }
-    .btn-answer:hover:not(:disabled) { background: rgba(0, 0, 0, 0.02); transform: var(--hover-lift); box-shadow: var(--shadow-soft); }
-    .btn-answer:active:not(:disabled) { transform: translateY(1px); box-shadow: none; }
-    .btn-answer:disabled { cursor: not-allowed; }
-    .btn-answer.correct {
-      background: var(--feedback-success); border-color: var(--ink-primary); color: var(--bg-card);
-      animation: celebrate var(--motion-slow) var(--ease-bounce);
-    }
-    .btn-answer.wrong {
-      background: var(--feedback-error); border-color: var(--ink-primary); color: var(--bg-card);
-      animation: shake 0.4s;
+      margin-bottom: var(--s-3);
     }
 
-    .explain-box { margin-top: var(--s-3); border: 3px solid var(--ink-primary); border-radius: var(--radius-md); overflow: hidden; background: var(--bg-card); }
-    .explain-box summary {
-      padding: var(--s-2); min-height: 48px; font-weight: 700; font-size: var(--text-base);
-      cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: center;
-      gap: 8px; color: var(--accent);
+    .card-section {
+      padding: var(--s-3);
+    }
+
+    .card-section + .card-section {
+      border-top: 3px solid var(--ink-primary);
+    }
+
+    /* === SECTION TITLE === */
+    .section-label {
+      font-size: var(--text-xs);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: var(--ink-secondary);
+      margin-bottom: var(--s-2);
+    }
+
+    /* === GRADE SELECTOR === */
+    .grade-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-1);
+    }
+
+    .grade-btn {
+      min-height: 52px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--ink-primary);
+      background: var(--bg-muted);
+      font-family: var(--font);
+      font-weight: 900;
+      font-size: var(--text-lg);
+      color: var(--ink-primary);
+      cursor: pointer;
+      transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+    }
+
+    .grade-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .grade-btn:active {
+      transform: scale(0.98);
+      box-shadow: none;
+    }
+
+    .grade-btn.selected {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent-dark);
+    }
+
+    /* === ICON BUTTONS ROW === */
+    .icon-row {
+      display: flex;
+      gap: var(--s-1);
+      margin-top: var(--s-2);
+      justify-content: flex-end;
+    }
+
+    .icon-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--ink-primary);
+      background: var(--bg-muted);
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .icon-btn:active {
+      transform: scale(0.98);
+      box-shadow: none;
+    }
+
+    /* === TASK AREA === */
+    .task-container {
+      position: relative;
+    }
+
+    .timer {
+      position: absolute;
+      top: var(--s-1);
+      right: var(--s-1);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--accent);
+      background: var(--bg-card);
+      font-weight: 900;
+      font-size: var(--text-sm);
+      color: var(--accent);
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .timer.active {
+      display: flex;
+    }
+
+    .timer.warning {
+      background: var(--color-error-bg);
+      border-color: var(--color-error);
+      color: var(--color-error);
+    }
+
+    .task-area {
+      background: var(--bg-muted);
+      border: 3px solid var(--ink-primary);
+      border-radius: var(--radius-md);
+      padding: var(--s-4) var(--s-3);
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .task-text {
+      font-size: clamp(1.75rem, 8vw, 2.5rem);
+      font-weight: 900;
+      color: var(--ink-primary);
+      text-align: center;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .task-text.word-problem {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    /* === ANSWER GRID === */
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-2);
+      margin-top: var(--s-3);
+    }
+
+    .answer-btn {
+      padding: var(--s-3);
+      border: 3px solid var(--ink-primary);
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      font-family: var(--font);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--ink-primary);
+      cursor: pointer;
+      transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+      min-height: 64px;
+    }
+
+    .answer-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-soft);
+      background: var(--accent-light);
+    }
+
+    .answer-btn:active {
+      transform: scale(0.98);
+      box-shadow: none;
+    }
+
+    .answer-btn.correct {
+      background: var(--color-success);
+      border-color: var(--color-success);
+      color: white;
+    }
+
+    .answer-btn.incorrect {
+      background: var(--color-error);
+      border-color: var(--color-error);
+      color: white;
+    }
+
+    /* === FEEDBACK === */
+    .feedback {
+      margin-top: var(--s-3);
+      padding: var(--s-2);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--ink-primary);
+      background: var(--bg-muted);
+      font-weight: 900;
+      font-size: var(--text-sm);
+      color: var(--ink-secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .feedback .ficon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .feedback.success {
+      background: var(--color-success-bg);
+      border-color: var(--color-success);
+      color: #2D5A3A;
+    }
+
+    .feedback.error {
+      background: var(--color-error-bg);
+      border-color: var(--color-error);
+      color: #6B3A32;
+    }
+
+    /* === HISTORY DOTS === */
+    .history-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: var(--s-2);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--ink-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .dot.correct {
+      background: var(--color-success-bg);
+      border-color: var(--color-success);
+      color: var(--color-success);
+    }
+
+    .dot.incorrect {
+      background: var(--color-error-bg);
+      border-color: var(--color-error);
+      color: var(--color-error);
+    }
+
+    /* === BUTTONS === */
+    .btn {
+      min-height: 52px;
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--ink-primary);
+      background: var(--bg-card);
+      color: var(--ink-secondary);
+      font-family: var(--font);
+      font-weight: 900;
+      font-size: var(--text-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out), filter var(--motion-fast) var(--ease-out);
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent-dark);
+    }
+
+    .btn.primary:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .actions {
+      display: flex;
+      gap: var(--s-2);
+      margin-top: var(--s-3);
+    }
+
+    .actions .btn {
+      flex: 1;
+    }
+
+    /* === FOOTER === */
+    footer {
+      flex: 0 0 auto;
+      padding: var(--s-2) var(--s-3);
+      padding-bottom: max(var(--s-2), env(safe-area-inset-bottom));
+      background: var(--bg-card);
+      border-top: 3px solid var(--ink-primary);
+      display: flex;
+      gap: var(--s-2);
+    }
+
+    footer .btn {
+      flex: 1;
+    }
+
+    /* === MODAL OVERLAY === */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.26);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: var(--s-3);
+      z-index: 100;
+    }
+
+    .overlay.open {
+      display: flex;
+    }
+
+    /* === SHEET (Bottom Modal) === */
+    .sheet {
+      width: 100%;
+      max-width: 560px;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 3px solid var(--ink-primary);
+      border-radius: var(--radius-xl);
+      background: var(--bg-card);
+      box-shadow: var(--shadow-soft);
+      padding: var(--s-3);
+      animation: slideUp var(--motion-base) var(--ease-out);
+    }
+
+    .sheet h2 {
+      margin: 0 0 var(--s-1);
+      font-size: var(--text-xl);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+
+    .sheet > p {
+      margin: 0 0 var(--s-3);
+      color: var(--ink-secondary);
+      font-weight: 800;
+      font-size: var(--text-sm);
+      text-align: center;
+    }
+
+    .sheet-actions {
+      display: flex;
+      gap: var(--s-2);
+      margin-top: var(--s-3);
+    }
+
+    .sheet-actions .btn {
+      flex: 1;
+    }
+
+    /* === SETTINGS === */
+    .settings-group {
+      background: var(--bg-muted);
+      border: 2px solid var(--ink-primary);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .setting-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--s-2);
+      min-height: 56px;
+    }
+
+    .setting-row + .setting-row {
+      border-top: 2px solid var(--ink-primary);
+    }
+
+    .setting-label {
+      font-weight: 900;
+      font-size: var(--text-sm);
+      color: var(--ink-primary);
+    }
+
+    /* === TOGGLE === */
+    .toggle {
+      width: 52px;
+      height: 32px;
+      background: var(--bg-canvas);
+      border: 2px solid var(--ink-primary);
+      border-radius: 16px;
+      position: relative;
+      cursor: pointer;
       transition: background var(--motion-fast) var(--ease-out);
     }
-    .explain-box summary:hover { background: rgba(0, 0, 0, 0.02); }
-    .explain-box summary::-webkit-details-marker { display: none; }
-    .explain-box[open] summary { border-bottom: 2px solid var(--ink-primary); }
-    .explain-content {
-      padding: var(--s-3); font-size: var(--text-base); line-height: 1.6;
-      background: var(--bg-muted); animation: slideDown var(--motion-base) var(--ease-out);
-    }
 
-    /* ═══ VISUAL MATH STYLES ═══ */
-    .math-visual {
-      background: var(--bg-card); border: 2px solid var(--ink-light);
-      border-radius: var(--radius-sm); padding: var(--s-3);
-      font-family: var(--font-mono); font-size: var(--text-md);
-      line-height: 1.8; margin: var(--s-2) 0;
-      text-align: left;
-    }
-    
-    .math-steps {
-      display: flex; flex-direction: column; gap: var(--s-2);
-    }
-    
-    .math-step {
-      padding: var(--s-2); background: var(--bg-muted);
-      border-left: 3px solid var(--col-math);
-      border-radius: 4px;
-    }
-    
-    .math-step.highlight {
-      background: rgba(74, 124, 145, 0.1);
-      border-left-color: var(--col-highlight);
-    }
-    
-    .math-step-label {
-      font-size: var(--text-xs); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--col-math); margin-bottom: 4px;
-      font-family: var(--font);
-    }
-    
-    /* Rechenkästchen (untereinander) */
-    .calc-box {
-      display: inline-block;
-      background: var(--bg-card);
-      border: 2px solid var(--ink-primary);
-      border-radius: var(--radius-sm);
-      padding: var(--s-2);
-      font-family: var(--font-mono);
-      font-size: 18px;
-      line-height: 1.6;
-      text-align: right;
-      margin: var(--s-2) auto;
-    }
-    
-    .calc-row {
-      display: flex;
-      justify-content: flex-end;
-      align-items: baseline;
-      gap: 12px;
-      min-height: 32px;
-    }
-    
-    .calc-row.underline {
-      border-bottom: 2px solid var(--ink-primary);
-      padding-bottom: 4px;
-      margin-bottom: 4px;
-    }
-    
-    .calc-op {
+    .toggle::after {
+      content: '';
+      position: absolute;
       width: 24px;
-      text-align: center;
-      font-weight: 700;
+      height: 24px;
+      background: var(--bg-card);
+      border: 2px solid var(--ink-primary);
+      border-radius: 12px;
+      top: 2px;
+      left: 2px;
+      transition: left var(--motion-fast) var(--ease-out);
     }
-    
-    .calc-num {
-      min-width: 60px;
-      text-align: right;
-      font-weight: 700;
+
+    .toggle.on {
+      background: var(--color-success);
+      border-color: var(--color-success);
     }
-    
-    .calc-num.highlight {
-      color: var(--col-math);
-      font-weight: 900;
+
+    .toggle.on::after {
+      left: 22px;
+      border-color: var(--color-success);
     }
-    
-    .calc-num.result {
-      color: var(--feedback-success);
-      font-weight: 900;
+
+    /* === STATS MODAL === */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-2);
+      margin-bottom: var(--s-3);
     }
-    
-    /* Zählhilfe */
-    .count-visual {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin: var(--s-2) 0;
-    }
-    
-    .count-item {
-      font-size: 32px;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+    .stat-card {
       background: var(--bg-muted);
-      border: 2px solid var(--ink-light);
-      border-radius: var(--radius-sm);
-    }
-    
-    /* Zahlenstrahl */
-    .number-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      margin: var(--s-3) 0;
+      border: 2px solid var(--ink-primary);
+      border-radius: var(--radius-md);
       padding: var(--s-2);
-      background: var(--bg-muted);
-      border-radius: var(--radius-sm);
+      text-align: center;
     }
-    
-    .number-node {
-      width: 40px;
-      height: 40px;
+
+    .stat-card-value {
+      font-size: var(--text-2xl);
+      font-weight: 900;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-card-label {
+      font-size: var(--text-xs);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+      margin-top: 4px;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-1);
+    }
+
+    .history-item {
+      padding: var(--s-2);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--ink-primary);
+      font-weight: 900;
+      font-size: var(--text-sm);
       display: flex;
       align-items: center;
+      gap: var(--s-1);
+    }
+
+    .history-item.correct {
+      background: var(--color-success-bg);
+      border-color: var(--color-success);
+      color: #2D5A3A;
+    }
+
+    .history-item.incorrect {
+      background: var(--color-error-bg);
+      border-color: var(--color-error);
+      color: #6B3A32;
+    }
+
+    /* === EXPLANATION === */
+    .explain-section {
+      background: var(--bg-muted);
+      border: 2px solid var(--ink-primary);
+      border-radius: var(--radius-md);
+      padding: var(--s-3);
+      margin-bottom: var(--s-2);
+    }
+
+    .explain-title {
+      font-weight: 900;
+      font-size: var(--text-sm);
+      color: var(--accent);
+      margin-bottom: var(--s-2);
+      display: flex;
+      align-items: center;
+      gap: var(--s-1);
+    }
+
+    .explain-result {
+      background: var(--accent);
+      color: white;
+      padding: var(--s-2);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--accent-dark);
+      text-align: center;
+      font-weight: 900;
+      font-size: var(--text-lg);
+    }
+
+    .explain-tip {
+      background: var(--color-warn-bg);
+      border: 2px solid var(--color-warn);
+      border-radius: var(--radius-sm);
+      padding: var(--s-2);
+      font-size: var(--text-sm);
+      font-weight: 800;
+      color: #6B5A32;
+      margin-top: var(--s-2);
+    }
+
+    /* === KÄSTCHEN-GRID (Schriftliches Rechnen) === */
+    .calc-grid-wrap {
+      display: flex;
       justify-content: center;
+      padding: var(--s-2) 0;
+    }
+
+    .calc-grid {
+      display: inline-grid;
+      gap: 0;
       background: var(--bg-card);
       border: 2px solid var(--ink-primary);
       border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: var(--text-md);
+      overflow: hidden;
     }
-    
-    .number-node.highlight {
-      background: var(--col-math);
-      color: var(--bg-card);
-      transform: scale(1.15);
+
+    .calc-cell {
+      width: 32px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font);
+      font-size: var(--text-lg);
+      font-weight: 900;
+      color: var(--ink-primary);
+      border-right: 1px solid var(--bg-muted);
+      border-bottom: 1px solid var(--bg-muted);
+      background: var(--bg-card);
     }
-    
-    .number-node.arrow {
-      border: none;
+
+    .calc-cell:last-child {
+      border-right: none;
+    }
+
+    .calc-cell.op {
+      color: var(--accent);
+      font-size: var(--text-xl);
+    }
+
+    .calc-cell.carry {
+      font-size: var(--text-xs);
+      color: var(--color-error);
+      height: 24px;
+    }
+
+    .calc-cell.result {
+      background: var(--color-success-bg);
+      color: var(--color-success);
+      font-weight: 900;
+    }
+
+    .calc-cell.highlight {
+      background: var(--color-warn-bg);
+    }
+
+    .calc-cell.line-above {
+      border-top: 3px solid var(--ink-primary);
+    }
+
+    .calc-cell.line-below {
+      border-bottom: 3px solid var(--ink-primary);
+    }
+
+    .calc-cell.empty {
       background: transparent;
-      font-size: 20px;
+      border-color: transparent;
     }
 
-    .streak-indicator { display: flex; justify-content: center; gap: 6px; margin-bottom: var(--s-2); }
-    .streak-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--bg-muted); border: 2px solid var(--ink-light); transition: all var(--motion-base) var(--ease-out); }
-    .streak-dot.filled { background: var(--feedback-success); border-color: var(--ink-primary); }
+    .calc-cell.spacer {
+      width: 16px;
+      background: transparent;
+      border: none;
+    }
 
-    @keyframes celebrate { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 1000px; } }
-    @keyframes scorePulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    .calc-cell.dot {
+      width: 12px;
+      font-size: var(--text-sm);
+    }
 
+    /* Division: Spezielle Darstellung */
+    .calc-division {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: flex-start;
+    }
+
+    .calc-div-header {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: var(--s-1);
+      background: var(--bg-card);
+      border: 2px solid var(--ink-primary);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-weight: 900;
+      font-size: var(--text-lg);
+    }
+
+    .calc-div-step {
+      display: flex;
+      gap: 0;
+      margin-left: 8px;
+    }
+
+    .calc-div-step .calc-cell {
+      border: 1px solid var(--bg-muted);
+    }
+
+    .calc-div-step.subtract {
+      color: var(--color-error);
+    }
+
+    .calc-div-step.remainder .calc-cell {
+      background: var(--color-warn-bg);
+    }
+
+    /* Responsive für kleine Screens */
     @media (max-width: 360px) {
-      .task-prompt { font-size: 20px; }
-      .level-btn { padding: 10px 14px; font-size: 13px; }
-      .calc-num { font-size: 16px; }
+      .calc-cell {
+        width: 26px;
+        height: 30px;
+        font-size: var(--text-md);
+      }
+      .calc-cell.carry {
+        height: 20px;
+        font-size: 10px;
+      }
     }
-    @media print {
-      body { background: white; padding: 0; }
-      header, footer { display: none !important; }
-      #app-frame { border: 1px solid #000; box-shadow: none; max-width: 100%; height: auto; }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 400px) {
+      header { padding: 0 var(--s-2); }
+      .viewport { padding: var(--s-2); }
+      footer { padding: var(--s-2); }
+      
+      .brand-title { font-size: var(--text-lg); }
+      .pill { padding: 8px 10px; min-height: 44px; }
+      .pill .val { font-size: var(--text-xs); }
+      
+      .grade-btn { min-height: 48px; font-size: var(--text-md); }
+      .answer-btn { font-size: 1.25rem; min-height: 56px; }
+      .btn { min-height: 48px; font-size: var(--text-sm); }
     }
   </style>
 </head>
+
 <body>
+  <div class="app-frame">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="brand-title">∑ Mathe üben</div>
+        <div class="brand-subtitle">Kidsneed</div>
+      </div>
+      <div class="header-stats">
+        <div class="pill" id="stats-pill" role="button" tabindex="0" aria-label="Statistiken">
+          <span class="icon">✓</span>
+          <span class="val" id="score">0</span>/<span class="val" id="total">0</span>
+        </div>
+        <div class="pill" aria-label="Serie">
+          <span class="icon">🔥</span>
+          <span class="val" id="streak">0</span>
+        </div>
+      </div>
+    </header>
 
-<div id="app-frame">
-  <header>
-    <div class="brand">
-      <div class="brand-title" id="uiTitle">Mathe PRO</div>
-      <div class="brand-subtitle" id="uiMode">Level wählen</div>
+    <!-- MAIN VIEWPORT -->
+    <main class="viewport">
+      <div class="card">
+        
+        <!-- Klassenstufe -->
+        <section class="card-section">
+          <div class="section-label">Klassenstufe</div>
+          <div class="grade-grid" id="grades">
+            <button class="grade-btn selected" data-g="1" type="button">1</button>
+            <button class="grade-btn" data-g="2" type="button">2</button>
+            <button class="grade-btn" data-g="3" type="button">3</button>
+            <button class="grade-btn" data-g="4" type="button">4</button>
+          </div>
+          <div class="icon-row">
+            <button class="icon-btn" id="snd" aria-label="Ton">🔊</button>
+            <button class="icon-btn" id="settings-btn" aria-label="Einstellungen">⚙️</button>
+          </div>
+        </section>
+
+        <!-- Aufgabe -->
+        <section class="card-section">
+          <div class="task-container">
+            <div class="timer" id="timer">
+              <span>⏱</span>
+              <span id="time">30</span>s
+            </div>
+            <div class="task-area">
+              <div class="task-text" id="task">Tippe auf „Neue Aufgabe"</div>
+            </div>
+          </div>
+
+          <div class="answers" id="answers"></div>
+
+          <div class="feedback" id="feedback">
+            <span class="ficon">📝</span>
+            <span>Wähle eine Klasse und starte.</span>
+          </div>
+
+          <div class="history-dots" id="history-dots"></div>
+        </section>
+
+        <!-- Aktionen -->
+        <section class="card-section">
+          <div class="actions">
+            <button class="btn" id="help-btn" disabled type="button">💡 Erklärung</button>
+            <button class="btn primary" id="start-btn" type="button">Neue Aufgabe</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <a class="btn" href="https://humaneed.github.io/kidsneed/" aria-label="Zurück zum Hub">← Hub</a>
+      <button class="btn" id="stats-btn" type="button">📊 Statistik</button>
+    </footer>
+
+    <!-- MODAL: Erklärung -->
+    <div class="overlay" id="modal-help">
+      <div class="sheet">
+        <h2>💡 Erklärung</h2>
+        <div id="help-content"></div>
+        <div class="sheet-actions">
+          <button class="btn primary" id="ok-help" type="button">Verstanden</button>
+        </div>
+      </div>
     </div>
-    <div class="score-badge" title="Punkte">
-      <span>⭐</span>
-      <span id="coin-count">0</span>
+
+    <!-- MODAL: Einstellungen -->
+    <div class="overlay" id="modal-settings">
+      <div class="sheet">
+        <h2>⚙️ Einstellungen</h2>
+        <p>Passe dein Übungserlebnis an.</p>
+        <div class="settings-group">
+          <div class="setting-row">
+            <span class="setting-label">Timer (30s)</span>
+            <div class="toggle" id="toggle-timer" role="switch" aria-checked="false" tabindex="0"></div>
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">Töne</span>
+            <div class="toggle on" id="toggle-sound" role="switch" aria-checked="true" tabindex="0"></div>
+          </div>
+          <div class="setting-row">
+            <span class="setting-label">Tastaturkürzel</span>
+            <div class="toggle on" id="toggle-keyboard" role="switch" aria-checked="true" tabindex="0"></div>
+          </div>
+        </div>
+        <div class="sheet-actions">
+          <button class="btn primary" id="ok-settings" type="button">Fertig</button>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <div class="viewport" id="content"></div>
+    <!-- MODAL: Statistiken -->
+    <div class="overlay" id="modal-stats">
+      <div class="sheet">
+        <h2>📊 Deine Statistiken</h2>
+        <div id="stats-content"></div>
+        <div class="sheet-actions">
+          <button class="btn primary" id="ok-stats" type="button">Schließen</button>
+        </div>
+      </div>
+    </div>
 
-  <footer>
-    <button class="footer-btn" id="btnBack" aria-label="Zurück">← Zurück</button>
-    <button class="footer-btn accent" id="btnNext" aria-label="Nächste Aufgabe">Weiter →</button>
-  </footer>
-</div>
+  </div>
 
 <script>
 (() => {
   'use strict';
-  
-  const $ = s => document.querySelector(s);
-  const $$ = s => [...document.querySelectorAll(s)];
-  const r = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-  const shuffle = arr => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
-  /* ════════════════════════════════════════════════════════════════
-     VISUAL MATH HELPERS - Verbesserte Rechenwege
-     ════════════════════════════════════════════════════════════════ */
-  
-  const VisualMath = {
-    // Addition untereinander
-    additionBox(a, b, result) {
-      return `
-        <div class="calc-box">
-          <div class="calc-row">
-            <span class="calc-op"></span>
-            <span class="calc-num">${a}</span>
-          </div>
-          <div class="calc-row underline">
-            <span class="calc-op">+</span>
-            <span class="calc-num">${b}</span>
-          </div>
-          <div class="calc-row">
-            <span class="calc-op">=</span>
-            <span class="calc-num result">${result}</span>
-          </div>
-        </div>
-      `;
-    },
-    
-    // Subtraktion untereinander
-    subtractionBox(a, b, result) {
-      return `
-        <div class="calc-box">
-          <div class="calc-row">
-            <span class="calc-op"></span>
-            <span class="calc-num">${a}</span>
-          </div>
-          <div class="calc-row underline">
-            <span class="calc-op">−</span>
-            <span class="calc-num">${b}</span>
-          </div>
-          <div class="calc-row">
-            <span class="calc-op">=</span>
-            <span class="calc-num result">${result}</span>
-          </div>
-        </div>
-      `;
-    },
-    
-    // Multiplikation untereinander
-    multiplicationBox(a, b, result) {
-      return `
-        <div class="calc-box">
-          <div class="calc-row">
-            <span class="calc-op"></span>
-            <span class="calc-num">${a}</span>
-          </div>
-          <div class="calc-row underline">
-            <span class="calc-op">×</span>
-            <span class="calc-num">${b}</span>
-          </div>
-          <div class="calc-row">
-            <span class="calc-op">=</span>
-            <span class="calc-num result">${result}</span>
-          </div>
-        </div>
-      `;
-    },
-    
-    // Division mit Rest
-    divisionBox(dividend, divisor, quotient, remainder) {
-      const steps = [];
-      steps.push(`<div class="math-step"><div class="math-step-label">Schritt 1</div>${dividend} : ${divisor} = ?</div>`);
-      steps.push(`<div class="math-step"><div class="math-step-label">Schritt 2</div>${divisor} × ${quotient} = ${divisor * quotient}</div>`);
-      steps.push(`<div class="math-step highlight"><div class="math-step-label">Schritt 3 (Rest)</div>${dividend} − ${divisor * quotient} = ${remainder}</div>`);
-      steps.push(`<div class="math-step"><div class="math-step-label">Ergebnis</div>${quotient} Rest ${remainder}</div>`);
-      return `<div class="math-steps">${steps.join('')}</div>`;
-    },
-    
-    // Zahlenstrahl
-    numberLine(start, end, highlight) {
-      const nodes = [];
-      for (let i = start; i <= end; i++) {
-        const isHighlight = Array.isArray(highlight) ? highlight.includes(i) : i === highlight;
-        nodes.push(`<div class="number-node ${isHighlight ? 'highlight' : ''}">${i}</div>`);
-        if (i < end) nodes.push(`<div class="number-node arrow">→</div>`);
-      }
-      return `<div class="number-line">${nodes.join('')}</div>`;
-    },
-    
-    // Zählhilfe mit Emojis
-    countVisual(emoji, count) {
-      return `<div class="count-visual">${emoji.repeat(count).split('').map(e => `<div class="count-item">${e}</div>`).join('')}</div>`;
-    },
-    
-    // Zahlzerlegung visuell
-    decompositionBox(num, tens, ones) {
-      return `
-        <div class="math-visual">
-          <div style="text-align: center; margin-bottom: 12px; font-size: 24px; font-weight: 900;">${num}</div>
-          <div style="display: flex; justify-content: space-around; align-items: center; margin: 16px 0;">
-            <div style="text-align: center;">
-              <div style="font-size: 14px; color: var(--col-math); font-weight: 700; margin-bottom: 8px;">ZEHNER</div>
-              <div style="font-size: 32px; font-weight: 900; color: var(--col-math);">${tens}</div>
-              <div style="font-size: 12px; margin-top: 4px;">(= ${tens * 10})</div>
-            </div>
-            <div style="font-size: 24px;">+</div>
-            <div style="text-align: center;">
-              <div style="font-size: 14px; color: var(--col-highlight); font-weight: 700; margin-bottom: 8px;">EINER</div>
-              <div style="font-size: 32px; font-weight: 900; color: var(--col-highlight);">${ones}</div>
-              <div style="font-size: 12px; margin-top: 4px;">(= ${ones})</div>
-            </div>
-          </div>
-          <div style="text-align: center; margin-top: 16px; padding-top: 12px; border-top: 2px solid var(--ink-light);">
-            ${tens * 10} + ${ones} = <strong>${num}</strong>
-          </div>
-        </div>
-      `;
-    },
-    
-    // Verdoppeln visuell
-    doublingBox(num, doubled) {
-      return `
-        <div class="math-visual">
-          <div class="math-steps">
-            <div class="math-step">
-              <div class="math-step-label">Ausgangszahl</div>
-              ${num}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Verdoppeln = 2×</div>
-              ${num} × 2 = ${num} + ${num}
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Ergebnis</div>
-              ${this.additionBox(num, num, doubled)}
-            </div>
-          </div>
-        </div>
-      `;
-    },
-    
-    // Halbieren visuell
-    halvingBox(num, half) {
-      return `
-        <div class="math-visual">
-          <div class="math-steps">
-            <div class="math-step">
-              <div class="math-step-label">Ausgangszahl</div>
-              ${num}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Halbieren = : 2</div>
-              ${num} : 2 = ?
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Ergebnis</div>
-              <strong>${half}</strong> + <strong>${half}</strong> = ${num} ✓
-            </div>
-          </div>
-        </div>
-      `;
-    },
-    
-    // Rechenpyramide visuell
-    pyramidBox(base1, base2, base3, mid1, mid2, top) {
-      return `
-        <div class="math-visual">
-          <div style="text-align: center;">
-            <div style="margin: 8px 0; font-size: 20px; font-weight: 900; color: var(--feedback-success);">${top}</div>
-            <div style="display: flex; justify-content: center; gap: 24px; margin: 8px 0;">
-              <div style="font-size: 18px; font-weight: 700;">${mid1}</div>
-              <div style="font-size: 18px; font-weight: 700;">${mid2}</div>
-            </div>
-            <div style="display: flex; justify-content: center; gap: 16px; margin: 8px 0;">
-              <div style="font-size: 16px;">${base1}</div>
-              <div style="font-size: 16px;">${base2}</div>
-              <div style="font-size: 16px;">${base3}</div>
-            </div>
-          </div>
-          <div class="math-steps" style="margin-top: 16px;">
-            <div class="math-step">
-              <div class="math-step-label">Schritt 1: Untere Ebene</div>
-              ${base1} + ${base2} = ${mid1}
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Schritt 2: Untere Ebene</div>
-              ${base2} + ${base3} = ${mid2}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Schritt 3: Spitze</div>
-              ${mid1} + ${mid2} = ${top}
-            </div>
-          </div>
-        </div>
-      `;
-    }
-  };
+  const $ = id => document.getElementById(id);
 
-  /* ════════════════════════════════════════════════════════════════
-     MATHE-GENERATOREN - VERBESSERT mit visuellen Rechenwegen
-     ════════════════════════════════════════════════════════════════ */
-  
-  const MATH = {
-    _distract: {
-      addSub(a, b, correct, op) {
-        const d = new Set();
-        d.add(correct + 1); d.add(correct - 1);
-        if (op === '+') d.add(a - b); else d.add(a + b);
-        if (correct > 9) d.add(parseInt(String(correct).split('').reverse().join('')));
-        return [...d].filter(x => x !== correct && x > 0 && Number.isFinite(x)).slice(0, 2);
-      },
-      mult(a, b, correct) {
-        const d = new Set();
-        d.add(a * (b - 1)); d.add(a * (b + 1));
-        d.add((a - 1) * b); d.add((a + 1) * b);
-        d.add(a + b);
-        return [...d].filter(x => x !== correct && x > 0).slice(0, 2);
-      },
-      div(quotient, remainder, divisor) {
-        const d = new Set();
-        const correct = remainder > 0 ? `${quotient} R${remainder}` : String(quotient);
-        d.add(remainder > 0 ? `${quotient + 1} R${remainder}` : String(quotient + 1));
-        d.add(remainder > 0 ? `${quotient} R${(remainder + 1) % divisor}` : String(quotient - 1));
-        if (remainder > 0) d.add(`${quotient + 1} R0`);
-        return [...d].filter(x => x !== correct).slice(0, 2);
-      }
-    },
-
-    /* ═══ LEVEL 0: VORSCHULE ═══ */
-    
-    createCounting: () => {
-      const num = r(3, 10);
-      const items = ['🍎', '⭐', '🎈', '🐱', '🚗', '🌸', '🦋', '🎨'];
-      const item = pick(items);
-      const distractors = [num + 1, num - 1, num + 2].filter(x => x > 0 && x !== num);
-      const visual = VisualMath.countVisual(item, num);
-      return {
-        q: `Zähle die Objekte:\n\nWie viele sind es?`,
-        a: num,
-        options: shuffle([num, ...distractors.slice(0, 2)]),
-        explain: `
-          ${visual}
-          <div class="math-visual">
-            <div class="math-step highlight">
-              <div class="math-step-label">Zählen</div>
-              1, 2, 3, ... bis <strong>${num}</strong>
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Ergebnis</div>
-              Es sind <strong>${num} Stück</strong>
-            </div>
-          </div>
-        `,
-        focus: 'Zählen',
-        type: 'counting'
-      };
-    },
-
-    createSimpleAdd: () => {
-      const a = r(1, 5);
-      const b = r(1, 5);
-      const sum = a + b;
-      if (sum > 10) return MATH.createCounting();
-      const distractors = MATH._distract.addSub(a, b, sum, '+');
-      return {
-        q: `${a} + ${b} = ?`,
-        a: sum,
-        options: shuffle([sum, ...distractors]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Aufgabe</div>
-              ${a} + ${b} = ?
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Rechnung untereinander</div>
-              ${VisualMath.additionBox(a, b, sum)}
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Zahlenstrahl</div>
-              ${VisualMath.numberLine(0, 10, [a, sum])}
-              <div style="text-align: center; margin-top: 8px; font-size: 14px;">
-                Start bei ${a}, dann ${b} Schritte → ${sum}
-              </div>
-            </div>
-          </div>
-        `,
-        focus: 'Addition bis 10',
-        type: 'add-simple'
-      };
-    },
-
-    createSimpleSub: () => {
-      const a = r(5, 10);
-      const b = r(1, Math.min(4, a - 1));
-      const diff = a - b;
-      const distractors = MATH._distract.addSub(a, b, diff, '-');
-      return {
-        q: `${a} − ${b} = ?`,
-        a: diff,
-        options: shuffle([diff, ...distractors]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Aufgabe</div>
-              ${a} − ${b} = ?
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Rechnung untereinander</div>
-              ${VisualMath.subtractionBox(a, b, diff)}
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Zahlenstrahl</div>
-              ${VisualMath.numberLine(0, 10, [diff, a])}
-              <div style="text-align: center; margin-top: 8px; font-size: 14px;">
-                Start bei ${a}, dann ${b} Schritte zurück → ${diff}
-              </div>
-            </div>
-          </div>
-        `,
-        focus: 'Subtraktion bis 10',
-        type: 'sub-simple'
-      };
-    },
-
-    createNumberLine: () => {
-      const missing = r(3, 8);
-      const before = missing - 1;
-      const after = missing + 1;
-      return {
-        q: `Welche Zahl fehlt?\n\n${before}  ?  ${after}`,
-        a: missing,
-        options: shuffle([missing, missing + 1, missing - 1]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Zahlenreihe</div>
-              ${VisualMath.numberLine(before - 1, after + 1, missing)}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Lösung</div>
-              Zwischen ${before} und ${after} liegt <strong>${missing}</strong>
-            </div>
-          </div>
-        `,
-        focus: 'Zahlenreihe',
-        type: 'numberline'
-      };
-    },
-
-    createCompare: () => {
-      const a = r(3, 9);
-      const b = r(3, 9);
-      if (a === b) return MATH.createCompare();
-      const bigger = Math.max(a, b);
-      const smaller = Math.min(a, b);
-      const isGreater = Math.random() < 0.5;
-      if (isGreater) {
-        return {
-          q: `Welche Zahl ist größer?\n\n${a}  oder  ${b}?`,
-          a: bigger,
-          options: shuffle([bigger, smaller]),
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Zahlenstrahl-Vergleich</div>
-                ${VisualMath.numberLine(Math.min(a, b) - 1, Math.max(a, b) + 1, bigger)}
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Regel</div>
-                Je weiter <strong>rechts</strong> auf dem Zahlenstrahl, desto <strong>größer</strong> die Zahl.
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Ergebnis</div>
-                ${bigger} > ${smaller} (${bigger} ist größer)
-              </div>
-            </div>
-          `,
-          focus: 'Vergleichen',
-          type: 'compare'
-        };
-      } else {
-        return {
-          q: `Welche Zahl ist kleiner?\n\n${a}  oder  ${b}?`,
-          a: smaller,
-          options: shuffle([bigger, smaller]),
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Zahlenstrahl-Vergleich</div>
-                ${VisualMath.numberLine(Math.min(a, b) - 1, Math.max(a, b) + 1, smaller)}
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Regel</div>
-                Je weiter <strong>links</strong> auf dem Zahlenstrahl, desto <strong>kleiner</strong> die Zahl.
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Ergebnis</div>
-                ${smaller} < ${bigger} (${smaller} ist kleiner)
-              </div>
-            </div>
-          `,
-          focus: 'Vergleichen',
-          type: 'compare'
-        };
-      }
-    },
-
-    /* ═══ LEVEL 1: KLASSE 1 ═══ */
-    
-    createDecomposition: () => {
-      const num = r(11, 19);
-      const tens = Math.floor(num / 10);
-      const ones = num % 10;
-      const correct = `${tens}Z + ${ones}E`;
-      const distractors = [`${ones}Z + ${tens}E`, `${tens}Z + ${ones + 1}E`, `${tens}Z + ${ones - 1}E`].filter(x => x !== correct);
-      return {
-        q: `Zerlege die Zahl ${num}`,
-        a: correct,
-        options: shuffle([correct, ...distractors.slice(0, 2)]),
-        explain: `
-          ${VisualMath.decompositionBox(num, tens, ones)}
-          <div class="math-visual" style="margin-top: 16px;">
-            <div class="math-step highlight">
-              <div class="math-step-label">Merke</div>
-              <strong>Z</strong> = Zehner (= 10)<br>
-              <strong>E</strong> = Einer (= 1)
-            </div>
-          </div>
-        `,
-        focus: 'Zahlzerlegung',
-        type: 'decomposition'
-      };
-    },
-    
-    createDoubling: () => {
-      const num = r(5, 10);
-      const doubled = num * 2;
-      const isDouble = Math.random() < 0.5;
-      if (isDouble) {
-        return {
-          q: `Was ist das Doppelte von ${num}?`,
-          a: doubled,
-          options: shuffle([doubled, doubled + 1, num + 1, doubled - 1].filter((v,i,a) => a.indexOf(v) === i).slice(0, 3)),
-          explain: VisualMath.doublingBox(num, doubled),
-          focus: 'Verdoppeln',
-          type: 'doubling'
-        };
-      } else {
-        return {
-          q: `Was ist die Hälfte von ${doubled}?`,
-          a: num,
-          options: shuffle([num, num + 1, num - 1, doubled - 1].filter((v,i,a) => a.indexOf(v) === i).slice(0, 3)),
-          explain: VisualMath.halvingBox(doubled, num),
-          focus: 'Halbieren',
-          type: 'halving'
-        };
-      }
-    },
-    
-    createStory1: () => {
-      const stories = [
-        { ctx: "🎈 Lisa hat {a} Luftballons.\nSie bekommt {b} dazu.", op: '+', items: 'Luftballons' },
-        { ctx: "🍎 Max hat {a} Äpfel.\nEr isst {b} Äpfel.", op: '-', items: 'Äpfel' },
-        { ctx: "🐦 Auf dem Baum sitzen {a} Vögel.\n{b} fliegen weg.", op: '-', items: 'Vögel' },
-        { ctx: "🧸 Emma hat {a} Spielzeuge.\nSie bekommt {b} neue.", op: '+', items: 'Spielzeuge' },
-        { ctx: "🍬 Im Glas sind {a} Bonbons.\nOma legt {b} dazu.", op: '+', items: 'Bonbons' },
-        { ctx: "🖍️ Tim hat {a} Stifte.\nEr verschenkt {b}.", op: '-', items: 'Stifte' }
-      ];
-      const story = pick(stories);
-      const a = r(5, 15);
-      const b = r(2, Math.min(8, a - 1));
-      const result = story.op === '+' ? a + b : a - b;
-      const text = story.ctx.replace('{a}', a).replace('{b}', b);
-      const distractors = MATH._distract.addSub(a, b, result, story.op);
-      const visual = story.op === '+' ? VisualMath.additionBox(a, b, result) : VisualMath.subtractionBox(a, b, result);
-      return {
-        q: `${text}\n\nWie viele ${story.items}?`,
-        a: result,
-        options: shuffle([result, ...distractors]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Schritt 1: Zahlen herauslesen</div>
-              Start: ${a} ${story.items}<br>
-              ${story.op === '+' ? 'Dazu kommen' : 'Weg gehen'}: ${b} ${story.items}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Schritt 2: Rechnung</div>
-              ${visual}
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Schritt 3: Antwort</div>
-              Es sind <strong>${result} ${story.items}</strong>
-            </div>
-          </div>
-        `,
-        focus: 'Rechengeschichte',
-        type: 'story'
-      };
-    },
-
-    createNeighbors: () => {
-      const num = r(10, 19);
-      const type = pick(['vor', 'nach', 'zwischen']);
-      if (type === 'vor') {
-        return {
-          q: `Welche Zahl kommt direkt VOR ${num}?`,
-          a: num - 1,
-          options: shuffle([num - 1, num + 1, num - 2]),
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Zahlenstrahl</div>
-                ${VisualMath.numberLine(num - 3, num + 1, num - 1)}
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Regel: Vorgänger</div>
-                Vorgänger = <strong>-1</strong><br>
-                ${num} − 1 = ${num - 1}
-              </div>
-            </div>
-          `,
-          focus: 'Vorgänger',
-          type: 'neighbor'
-        };
-      } else if (type === 'nach') {
-        return {
-          q: `Welche Zahl kommt direkt NACH ${num}?`,
-          a: num + 1,
-          options: shuffle([num + 1, num - 1, num + 2]),
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Zahlenstrahl</div>
-                ${VisualMath.numberLine(num - 1, num + 3, num + 1)}
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Regel: Nachfolger</div>
-                Nachfolger = <strong>+1</strong><br>
-                ${num} + 1 = ${num + 1}
-              </div>
-            </div>
-          `,
-          focus: 'Nachfolger',
-          type: 'neighbor'
-        };
-      } else {
-        return {
-          q: `Welche Zahl liegt zwischen\n${num - 1} und ${num + 1}?`,
-          a: num,
-          options: shuffle([num, num - 1, num + 2]),
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Zahlenstrahl</div>
-                ${VisualMath.numberLine(num - 2, num + 2, num)}
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Regel: Zwischenzahl</div>
-                Zwischen ${num - 1} und ${num + 1} liegt genau <strong>${num}</strong>
-              </div>
-            </div>
-          `,
-          focus: 'Zwischenzahl',
-          type: 'neighbor'
-        };
-      }
-    },
-
-    /* ═══ LEVEL 2: KLASSE 2 ═══ */
-    
-    createMoney: () => {
-      const items = [
-        { name: '🍫 Schoko', price: r(1, 3) },
-        { name: '🥤 Saft', price: r(1, 2) },
-        { name: '🍎 Apfel', price: 1 },
-        { name: '🍪 Keks', price: r(1, 2) },
-        { name: '🍦 Eis', price: r(2, 3) },
-        { name: '🥨 Brezel', price: r(1, 2) }
-      ];
-      const item1 = pick(items);
-      const item2 = pick(items.filter(i => i !== item1));
-      const total = item1.price + item2.price;
-      const paid = total + r(1, 3);
-      const change = paid - total;
-      const distractors = [`${change + 1}€`, `${total}€`, `${change - 1}€`, `${paid}€`].filter(x => x !== `${change}€`);
-      return {
-        q: `Du kaufst:\n${item1.name} (${item1.price}€)\n${item2.name} (${item2.price}€)\n\nDu zahlst ${paid}€.\nWie viel zurück?`,
-        a: `${change}€`,
-        options: shuffle([`${change}€`, ...distractors.slice(0, 2)]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Schritt 1: Gesamtpreis</div>
-              ${VisualMath.additionBox(item1.price, item2.price, total)}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Schritt 2: Rückgeld</div>
-              ${VisualMath.subtractionBox(paid, total, change)}
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">Antwort</div>
-              Du bekommst <strong>${change}€</strong> zurück
-            </div>
-          </div>
-        `,
-        focus: 'Geld rechnen',
-        type: 'money'
-      };
-    },
-    
-    createTime: () => {
-      const hour = r(1, 11);
-      const minutes = pick([0, 15, 30, 45]);
-      const timeStr = minutes === 0 ? `${hour} Uhr` : minutes === 15 ? `Viertel nach ${hour}` : minutes === 30 ? `halb ${hour + 1}` : `Viertel vor ${hour + 1}`;
-      const digital = `${hour}:${String(minutes).padStart(2, '0')}`;
-      const wrongHour = minutes === 30 ? `${hour + 1}:30` : `${hour + 1}:${String(minutes).padStart(2, '0')}`;
-      const wrongMin = `${hour}:${String((minutes + 15) % 60).padStart(2, '0')}`;
-      return {
-        q: `🕐 Wie spät ist es?\n\n"${timeStr}"`,
-        a: digital,
-        options: shuffle([digital, wrongHour, wrongMin]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Analoge Uhrzeit</div>
-              <div style="font-size: 20px; text-align: center; margin: 12px 0;">${timeStr}</div>
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Digitale Uhrzeit</div>
-              <div style="font-size: 32px; text-align: center; margin: 12px 0; font-weight: 900; color: var(--col-math);">${digital}</div>
-            </div>
-            ${minutes === 30 ? `
-            <div class="math-step">
-              <div class="math-step-label">⚠️ Häufiger Fehler!</div>
-              <strong>"halb ${hour + 1}"</strong> bedeutet <strong>${hour}:30</strong><br>
-              (nicht ${hour + 1}:30!)
-            </div>` : ''}
-            <div class="math-step">
-              <div class="math-step-label">Merke</div>
-              Viertel nach = :15<br>
-              Halb = :30<br>
-              Viertel vor = :45
-            </div>
-          </div>
-        `,
-        focus: 'Uhrzeit',
-        type: 'time'
-      };
-    },
-    
-    createPyramid: () => {
-      const base1 = r(5, 15);
-      const base2 = r(5, 15);
-      const base3 = r(5, 15);
-      const mid1 = base1 + base2;
-      const mid2 = base2 + base3;
-      const top = mid1 + mid2;
-      return {
-        q: `Rechenpyramide:\n\n      [?]\n    [${mid1}]  [${mid2}]\n  [${base1}]  [${base2}]  [${base3}]\n\nWas steht oben?`,
-        a: top,
-        options: shuffle([top, mid1 + base3, top + 1, mid2 + base1].filter((v,i,a) => a.indexOf(v) === i).slice(0, 3)),
-        explain: VisualMath.pyramidBox(base1, base2, base3, mid1, mid2, top),
-        focus: 'Rechenpyramide',
-        type: 'pyramid'
-      };
-    },
-
-    createLength: () => {
-      const types = [
-        { 
-          q: `Wie viele cm sind 1 Meter?`, 
-          a: '100 cm', 
-          opts: ['100 cm', '10 cm', '1000 cm'], 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step highlight">
-                <div class="math-step-label">Umrechnung</div>
-                <strong>1 m = 100 cm</strong>
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Merke</div>
-                m = Meter (groß)<br>
-                cm = Zentimeter (klein)<br>
-                1 m = 100 cm
-              </div>
-            </div>
-          `
-        },
-        { 
-          q: `Wie viele mm sind 1 cm?`, 
-          a: '10 mm', 
-          opts: ['10 mm', '100 mm', '1 mm'], 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step highlight">
-                <div class="math-step-label">Umrechnung</div>
-                <strong>1 cm = 10 mm</strong>
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Merke</div>
-                cm = Zentimeter<br>
-                mm = Millimeter (sehr klein)<br>
-                1 cm = 10 mm
-              </div>
-            </div>
-          `
-        }
-      ];
-      const t = pick(types);
-      return { q: t.q, a: t.a, options: shuffle(t.opts), explain: t.explain, focus: 'Längenmaße', type: 'length' };
-    },
-
-    createWeight: () => {
-      const types = [
-        { 
-          q: `Wie viele g sind 1 kg?`, 
-          a: '1000 g', 
-          opts: ['1000 g', '100 g', '10 g'], 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step highlight">
-                <div class="math-step-label">Umrechnung</div>
-                <strong>1 kg = 1000 g</strong>
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Merke</div>
-                kg = Kilogramm (schwer)<br>
-                g = Gramm (leicht)<br>
-                1 kg = 1000 g
-              </div>
-            </div>
-          `
-        }
-      ];
-      const t = pick(types);
-      return { q: t.q, a: t.a, options: shuffle(t.opts), explain: t.explain, focus: 'Gewicht', type: 'weight' };
-    },
-
-    /* ═══ LEVEL 3: KLASSE 3 ═══ */
-    
-    createDivisionRemainder: () => {
-      const divisor = r(3, 7);
-      const quotient = r(5, 12);
-      const remainder = r(1, divisor - 1);
-      const dividend = divisor * quotient + remainder;
-      const correct = `${quotient} R${remainder}`;
-      const distractors = MATH._distract.div(quotient, remainder, divisor);
-      return {
-        q: `${dividend} : ${divisor} = ?`,
-        a: correct,
-        options: shuffle([correct, ...distractors]),
-        explain: VisualMath.divisionBox(dividend, divisor, quotient, remainder),
-        focus: 'Division mit Rest',
-        type: 'div-remainder'
-      };
-    },
-
-    createGeometry: () => {
-      const types = [
-        { 
-          q: `Ein Quadrat hat 4 Seiten à 8 cm.\nWie lang ist der Umfang?`, 
-          a: '32 cm', 
-          opts: ['32 cm', '16 cm', '64 cm'], 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Quadrat</div>
-                Alle 4 Seiten gleich lang: 8 cm
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Umfang</div>
-                ${VisualMath.multiplicationBox(4, 8, 32)}
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Formel</div>
-                Umfang = 4 × Seitenlänge<br>
-                U = 4 × 8 = <strong>32 cm</strong>
-              </div>
-            </div>
-          `
-        }
-      ];
-      const t = pick(types);
-      return { q: t.q, a: t.a, options: shuffle(t.opts), explain: t.explain, focus: 'Geometrie', type: 'geometry' };
-    },
-    
-    createRatio: () => {
-      const problems = [
-        { 
-          story: "In einer Klasse sind 24 Kinder.\nDie Hälfte sind Mädchen.", 
-          question: "Wie viele Jungen?", 
-          answer: 12, 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Schritt 1: Hälfte berechnen</div>
-                24 : 2 = 12 Mädchen
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Schritt 2: Rest = Jungen</div>
-                ${VisualMath.subtractionBox(24, 12, 12)}
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Antwort</div>
-                <strong>12 Jungen</strong>
-              </div>
-            </div>
-          `,
-          distractors: [24, 6] 
-        }
-      ];
-      const p = pick(problems);
-      return { q: `${p.story}\n\n${p.question}`, a: p.answer, options: shuffle([p.answer, ...p.distractors]), explain: p.explain, focus: 'Sachrechnen', type: 'ratio' };
-    },
-
-    createChain: () => {
-      const a = r(10, 30);
-      const b = r(5, 15);
-      const c = r(3, 10);
-      const types = [
-        { 
-          q: `${a} + ${b} − ${c} = ?`, 
-          a: a + b - c, 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Schritt 1: Addition</div>
-                ${VisualMath.additionBox(a, b, a + b)}
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Schritt 2: Subtraktion</div>
-                ${VisualMath.subtractionBox(a + b, c, a + b - c)}
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">💡 Tipp</div>
-                Bei Kettenaufgaben immer <strong>von links nach rechts</strong> rechnen!
-              </div>
-            </div>
-          `
-        }
-      ];
-      const t = pick(types);
-      const distractors = [t.a + 1, t.a - 1, a + b + c].filter(x => x !== t.a && x > 0);
-      return { q: t.q, a: t.a, options: shuffle([t.a, ...distractors.slice(0, 2)]), explain: t.explain, focus: 'Kettenaufgabe', type: 'chain' };
-    },
-
-    /* ═══ LEVEL 4: KLASSE 4 ═══ */
-    
-    createRounding: () => {
-      const num = r(1000, 9999);
-      const roundTo = pick([10, 100, 1000]);
-      const rounded = Math.round(num / roundTo) * roundTo;
-      const wrongDown = Math.floor(num / roundTo) * roundTo;
-      const wrongUp = Math.ceil(num / roundTo) * roundTo;
-      const distractors = [wrongDown, wrongUp, rounded + roundTo, rounded - roundTo].filter(x => x !== rounded);
-      return {
-        q: `Runde ${num.toLocaleString('de-DE')}\nauf ${roundTo}er`,
-        a: rounded.toLocaleString('de-DE'),
-        options: shuffle([rounded.toLocaleString('de-DE'), ...distractors.slice(0, 2).map(x => x.toLocaleString('de-DE'))]),
-        explain: `
-          <div class="math-visual">
-            <div class="math-step">
-              <div class="math-step-label">Ausgangszahl</div>
-              ${num.toLocaleString('de-DE')}
-            </div>
-            <div class="math-step highlight">
-              <div class="math-step-label">Runden auf ${roundTo}er</div>
-              <div style="font-size: 24px; font-weight: 900; text-align: center; margin: 12px 0; color: var(--feedback-success);">
-                ${rounded.toLocaleString('de-DE')}
-              </div>
-            </div>
-            <div class="math-step">
-              <div class="math-step-label">💡 Regel</div>
-              <strong>Ab 5 aufrunden</strong> (6, 7, 8, 9 → auf)<br>
-              <strong>Unter 5 abrunden</strong> (0, 1, 2, 3, 4 → ab)
-            </div>
-          </div>
-        `,
-        focus: 'Runden',
-        type: 'rounding'
-      };
-    },
-    
-    createFraction: () => {
-      const denominator = pick([2, 3, 4, 5, 6, 8]);
-      const numerator = r(1, denominator - 1);
-      const fraction = `${numerator}/${denominator}`;
-      const types = [
-        { 
-          q: `Was ist größer?\n${fraction} oder 1/2?`, 
-          correct: numerator / denominator > 0.5 ? fraction : '1/2', 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step">
-                <div class="math-step-label">Bruch-Vergleich</div>
-                ${fraction} = ${(numerator / denominator * 100).toFixed(0)}%<br>
-                1/2 = 50%
-              </div>
-              <div class="math-step highlight">
-                <div class="math-step-label">Größer</div>
-                <strong>${numerator / denominator > 0.5 ? fraction : '1/2'}</strong> ist größer
-              </div>
-            </div>
-          `
-        }
-      ];
-      const type = pick(types);
-      const allOpts = [type.correct, fraction, '1/2', String(denominator - numerator), `${numerator}/${denominator + 2}`];
-      return { q: type.q, a: type.correct, options: shuffle(allOpts.filter((v, i, a) => a.indexOf(v) === i).slice(0, 3)), explain: type.explain, focus: 'Brüche', type: 'fraction' };
-    },
-
-    createRoman: () => {
-      const romans = [
-        { r: 'I', n: 1 }, { r: 'II', n: 2 }, { r: 'III', n: 3 }, { r: 'IV', n: 4 }, { r: 'V', n: 5 },
-        { r: 'VI', n: 6 }, { r: 'VII', n: 7 }, { r: 'VIII', n: 8 }, { r: 'IX', n: 9 }, { r: 'X', n: 10 },
-        { r: 'XI', n: 11 }, { r: 'XII', n: 12 }, { r: 'XX', n: 20 }, { r: 'L', n: 50 }, { r: 'C', n: 100 }
-      ];
-      const item = pick(romans);
-      const toArabic = Math.random() < 0.5;
-      if (toArabic) {
-        const distractors = [item.n + 1, item.n - 1, item.n + 5].filter(x => x > 0 && x !== item.n);
-        return { 
-          q: `Was bedeutet ${item.r}?`, 
-          a: item.n, 
-          options: shuffle([item.n, ...distractors.slice(0, 2)]), 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step highlight">
-                <div class="math-step-label">Umrechnung</div>
-                <div style="font-size: 32px; text-align: center; margin: 12px 0;">
-                  ${item.r} = <strong>${item.n}</strong>
-                </div>
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Römische Zahlen</div>
-                I = 1, V = 5, X = 10, L = 50, C = 100
-              </div>
-            </div>
-          `,
-          focus: 'Römische Zahlen', 
-          type: 'roman' 
-        };
-      } else {
-        const others = romans.filter(x => x.n !== item.n).map(x => x.r).slice(0, 2);
-        return { 
-          q: `Wie schreibt man ${item.n} römisch?`, 
-          a: item.r, 
-          options: shuffle([item.r, ...others]), 
-          explain: `
-            <div class="math-visual">
-              <div class="math-step highlight">
-                <div class="math-step-label">Umrechnung</div>
-                <div style="font-size: 32px; text-align: center; margin: 12px 0;">
-                  ${item.n} = <strong>${item.r}</strong>
-                </div>
-              </div>
-              <div class="math-step">
-                <div class="math-step-label">Römische Zahlen</div>
-                I = 1, V = 5, X = 10, L = 50, C = 100
-              </div>
-            </div>
-          `,
-          focus: 'Römische Zahlen', 
-          type: 'roman' 
-        };
-      }
-    },
-
-    generate: (level) => {
-      const generators = {
-        0: [MATH.createCounting, MATH.createSimpleAdd, MATH.createSimpleSub, MATH.createNumberLine, MATH.createCompare],
-        1: [MATH.createDecomposition, MATH.createDoubling, MATH.createStory1, MATH.createNeighbors],
-        2: [MATH.createMoney, MATH.createTime, MATH.createPyramid, MATH.createDoubling, MATH.createLength, MATH.createWeight],
-        3: [MATH.createDivisionRemainder, MATH.createGeometry, MATH.createRatio, MATH.createPyramid, MATH.createChain],
-        4: [MATH.createRounding, MATH.createFraction, MATH.createRatio, MATH.createGeometry, MATH.createRoman]
-      };
-      
-      for (let attempt = 0; attempt < 5; attempt++) {
-        const gen = pick(generators[level] || generators[1]);
-        const task = gen();
-        if (task && task.q && task.a !== undefined && 
-            Array.isArray(task.options) && task.options.length >= 2 &&
-            task.options.map(String).includes(String(task.a)) &&
-            new Set(task.options.map(String)).size === task.options.length) {
-          return task;
-        }
-      }
-      return MATH.createDoubling();
-    }
-  };
-
-  /* ════════════════════════════════════════════════════════════════
-     APP STATE & LOGIC
-     ════════════════════════════════════════════════════════════════ */
-  
-  const State = {
-    level: parseInt(localStorage.getItem('mathe_level') || '0'),
-    coins: parseInt(localStorage.getItem('mathe_coins') || '0'),
+  // === STATE ===
+  const state = {
+    grade: 1,
+    score: 0,
+    total: 0,
     streak: 0,
+    maxStreak: 0,
     currentTask: null,
-    
-    save() {
-      localStorage.setItem('mathe_level', this.level);
-      localStorage.setItem('mathe_coins', this.coins);
-    },
-    
-    addCoins(amount) {
-      this.coins += amount;
-      this.save();
-      updateCoins();
-    }
+    answered: false,
+    history: [],
+    settings: { timer: false, sound: true, keyboard: true },
+    timerValue: 30,
+    timerInterval: null
   };
 
-  function updateCoins() {
-    $('#coin-count').textContent = State.coins;
-    $('.score-badge').classList.add('pulse');
-    setTimeout(() => $('.score-badge').classList.remove('pulse'), 400);
-  }
+  // === HELPERS ===
+  const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-  function renderTask() {
-    const levelNames = ['Vorschule', 'Klasse 1', 'Klasse 2', 'Klasse 3', 'Klasse 4'];
-    $('#uiTitle').textContent = 'Mathe PRO';
-    $('#uiMode').textContent = levelNames[State.level];
+  const saveState = () => {
+    try {
+      localStorage.setItem('kidsneed_math', JSON.stringify({
+        score: state.score,
+        total: state.total,
+        streak: state.streak,
+        maxStreak: state.maxStreak,
+        history: state.history.slice(-20),
+        settings: state.settings,
+        grade: state.grade
+      }));
+    } catch {}
+  };
+
+  const loadState = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('kidsneed_math'));
+      if (saved) {
+        Object.assign(state, {
+          score: saved.score || 0,
+          total: saved.total || 0,
+          streak: saved.streak || 0,
+          maxStreak: saved.maxStreak || 0,
+          history: saved.history || [],
+          grade: saved.grade || 1
+        });
+        state.settings = { ...state.settings, ...saved.settings };
+
+        document.querySelectorAll('.grade-btn').forEach(btn => {
+          btn.classList.toggle('selected', +btn.dataset.g === state.grade);
+        });
+
+        $('toggle-timer').classList.toggle('on', state.settings.timer);
+        $('toggle-sound').classList.toggle('on', state.settings.sound);
+        $('toggle-keyboard').classList.toggle('on', state.settings.keyboard);
+        $('snd').textContent = state.settings.sound ? '🔊' : '🔇';
+      }
+    } catch {}
+  };
+
+  // === TASK GENERATION ===
+  const createTask = (grade) => {
+    const types = grade === 1 ? ['add', 'sub'] : 
+                  grade === 2 ? ['add', 'sub', 'mul'] :
+                  grade === 3 ? ['add', 'sub', 'mul', 'div'] :
+                  ['add', 'sub', 'mul', 'div', 'word'];
     
-    State.currentTask = MATH.generate(State.level);
-    const task = State.currentTask;
-    const isLong = task.options.some(opt => String(opt).length > 12);
+    const type = types[rand(0, types.length - 1)];
+    if (type === 'word') return createWordTask(grade);
     
-    const html = `
-      <div class="level-selector">
-        ${[0,1,2,3,4].map(l => `<button class="level-btn ${l === State.level ? 'active' : ''}" data-level="${l}">${levelNames[l]}</button>`).join('')}
-      </div>
-      
-      <div class="streak-indicator">
-        ${[0,1,2,3,4].map(i => `<div class="streak-dot ${i < State.streak ? 'filled' : ''}"></div>`).join('')}
-      </div>
-      
-      <div class="task-card">
-        <div class="task-label">${task.focus || 'AUFGABE'}</div>
-        <div class="task-prompt ${task.q.length > 60 ? 'small' : ''}">${task.q}</div>
-      </div>
-      
-      <div class="choices ${isLong ? 'single-col' : ''}">
-        ${task.options.map((o, i) => `<button class="btn-answer" data-val="${o}" data-index="${i + 1}">${o}</button>`).join('')}
-      </div>
-      
-      <details class="explain-box" id="explBox">
-        <summary>💡 Rechenweg anzeigen</summary>
-        <div class="explain-content">${task.explain}</div>
-      </details>
-    `;
+    let num1, num2, answer, op, symbol;
     
-    $('#content').innerHTML = html;
+    if (type === 'add') {
+      if (grade === 1) { num1 = rand(1, 10); num2 = rand(1, 10); }
+      else if (grade === 2) { num1 = rand(10, 50); num2 = rand(10, 50); }
+      else { num1 = rand(10, 999); num2 = rand(10, 999); }
+      answer = num1 + num2; op = 'add'; symbol = '+';
+    } else if (type === 'sub') {
+      if (grade === 1) { answer = rand(1, 10); num2 = rand(1, answer); num1 = answer + num2; }
+      else if (grade === 2) { answer = rand(10, 50); num2 = rand(10, answer); num1 = answer + num2; }
+      else { answer = rand(10, 999); num2 = rand(10, answer); num1 = answer + num2; }
+      op = 'sub'; symbol = '−';
+    } else if (type === 'mul') {
+      if (grade === 2) { num1 = rand(2, 10); num2 = rand(2, 10); }
+      else if (grade === 3) { num1 = rand(2, 12); num2 = rand(2, 12); }
+      else { num1 = rand(2, 99); num2 = rand(2, 12); }
+      answer = num1 * num2; op = 'mul'; symbol = '×';
+    } else {
+      if (grade === 3) { num2 = rand(2, 10); answer = rand(2, 10); }
+      else { num2 = rand(2, 12); answer = rand(2, 99); }
+      num1 = num2 * answer; op = 'div'; symbol = '÷';
+    }
     
-    $$('.level-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        State.level = parseInt(btn.dataset.level);
-        State.streak = 0;
-        State.save();
-        renderTask();
+    const options = [answer];
+    while (options.length < 4) {
+      let wrong = answer + rand(-10, 10) * (op === 'mul' ? 1.5 : 1);
+      wrong = Math.round(wrong);
+      if (wrong > 0 && !options.includes(wrong)) options.push(wrong);
+    }
+    options.sort(() => Math.random() - 0.5);
+    
+    return { num1, num2, answer, op, problem: `${num1} ${symbol} ${num2} = ?`, options, correctIndex: options.indexOf(answer), taskType: 'math' };
+  };
+
+  const createWordTask = (grade) => {
+    const templates = [
+      { text: "Anna hat {n1} Äpfel. Sie bekommt {n2} dazu. Wie viele hat sie jetzt?", op: "add" },
+      { text: "Tom hat {n1} Bonbons. Er gibt {n2} ab. Wie viele bleiben?", op: "sub" },
+      { text: "In einer Schachtel sind {n1} Stifte. Es gibt {n2} Schachteln. Wie viele Stifte insgesamt?", op: "mul" },
+      { text: "Lisa hat {n1} Euro. Ein Spielzeug kostet {n2} Euro. Wie viele kann sie kaufen?", op: "div" }
+    ];
+    
+    const validTemplates = templates.filter(t => 
+      (t.op === 'add' || t.op === 'sub') || (grade >= 2 && t.op === 'mul') || (grade >= 3 && t.op === 'div')
+    );
+    
+    const template = validTemplates[rand(0, validTemplates.length - 1)];
+    let num1, num2, answer;
+    
+    if (template.op === 'add') { num1 = rand(3, 20); num2 = rand(3, 20); answer = num1 + num2; }
+    else if (template.op === 'sub') { answer = rand(3, 20); num2 = rand(1, answer - 1); num1 = answer + num2; }
+    else if (template.op === 'mul') { num1 = rand(2, 10); num2 = rand(2, 10); answer = num1 * num2; }
+    else { num2 = rand(2, 8); answer = rand(2, 12); num1 = num2 * answer; }
+    
+    const text = template.text.replace('{n1}', num1).replace('{n2}', num2);
+    const options = [answer];
+    while (options.length < 4) {
+      const wrong = answer + rand(-8, 8);
+      if (wrong > 0 && !options.includes(wrong)) options.push(wrong);
+    }
+    options.sort(() => Math.random() - 0.5);
+    
+    return { num1, num2, answer, op: template.op, problem: text, options, correctIndex: options.indexOf(answer), taskType: 'word' };
+  };
+
+  // === EXPLANATIONS (Kästchen-Grid) ===
+  
+  // Hilfsfunktion: Zahl in Ziffern-Array
+  const toDigits = (n) => String(n).split('').map(d => d);
+  
+  // Hilfsfunktion: Grid-Zeile erstellen
+  const gridRow = (cells, cols) => {
+    let html = '';
+    // Padding links mit leeren Zellen
+    const padding = cols - cells.length;
+    for (let i = 0; i < padding; i++) {
+      html += `<div class="calc-cell empty"></div>`;
+    }
+    cells.forEach(cell => {
+      const classes = ['calc-cell'];
+      if (cell.class) classes.push(cell.class);
+      html += `<div class="${classes.join(' ')}">${cell.val ?? ''}</div>`;
+    });
+    return html;
+  };
+
+  // Addition mit Kästchen
+  const generateAdditionGrid = (num1, num2, answer) => {
+    const d1 = toDigits(num1);
+    const d2 = toDigits(num2);
+    const dR = toDigits(answer);
+    const cols = Math.max(d1.length, d2.length, dR.length) + 1; // +1 für Operator
+    
+    // Übertrag berechnen
+    const carries = [];
+    let carry = 0;
+    for (let i = 0; i < cols - 1; i++) {
+      const digit1 = parseInt(d1[d1.length - 1 - i]) || 0;
+      const digit2 = parseInt(d2[d2.length - 1 - i]) || 0;
+      const sum = digit1 + digit2 + carry;
+      carries.unshift(sum >= 10 ? 1 : 0);
+      carry = sum >= 10 ? 1 : 0;
+    }
+    
+    let html = `<div class="calc-grid-wrap"><div class="calc-grid" style="grid-template-columns: repeat(${cols}, auto);">`;
+    
+    // Übertrag-Zeile (wenn vorhanden)
+    if (carries.some(c => c > 0)) {
+      const carryRow = [{ val: '', class: 'carry' }]; // Operator-Spalte
+      for (let i = 0; i < cols - 1; i++) {
+        const idx = carries.length - (cols - 1) + i;
+        carryRow.push({ val: carries[idx] > 0 ? '¹' : '', class: 'carry' });
+      }
+      html += gridRow(carryRow, cols);
+    }
+    
+    // Erste Zahl
+    const row1 = [{ val: '', class: 'empty' }];
+    d1.forEach(d => row1.push({ val: d }));
+    html += gridRow(row1, cols);
+    
+    // Zweite Zahl mit Operator
+    const row2 = [{ val: '+', class: 'op' }];
+    d2.forEach(d => row2.push({ val: d }));
+    html += gridRow(row2, cols);
+    
+    // Ergebnis mit Linie
+    const rowR = [{ val: '', class: 'line-above' }];
+    dR.forEach(d => rowR.push({ val: d, class: 'line-above result' }));
+    html += gridRow(rowR, cols);
+    
+    html += `</div></div>`;
+    return html;
+  };
+
+  // Subtraktion mit Kästchen
+  const generateSubtractionGrid = (num1, num2, answer) => {
+    const d1 = toDigits(num1);
+    const d2 = toDigits(num2);
+    const dR = toDigits(answer);
+    const cols = Math.max(d1.length, d2.length, dR.length) + 1;
+    
+    let html = `<div class="calc-grid-wrap"><div class="calc-grid" style="grid-template-columns: repeat(${cols}, auto);">`;
+    
+    // Erste Zahl
+    const row1 = [{ val: '', class: 'empty' }];
+    d1.forEach(d => row1.push({ val: d }));
+    html += gridRow(row1, cols);
+    
+    // Zweite Zahl mit Operator
+    const row2 = [{ val: '−', class: 'op' }];
+    d2.forEach(d => row2.push({ val: d }));
+    html += gridRow(row2, cols);
+    
+    // Ergebnis mit Linie
+    const rowR = [{ val: '', class: 'line-above' }];
+    dR.forEach(d => rowR.push({ val: d, class: 'line-above result' }));
+    html += gridRow(rowR, cols);
+    
+    html += `</div></div>`;
+    return html;
+  };
+
+  // Multiplikation mit Kästchen (wie im Bild: mit Zwischenergebnissen)
+  const generateMultiplicationGrid = (num1, num2, answer) => {
+    const d1 = toDigits(num1);
+    const d2 = toDigits(num2);
+    const dR = toDigits(answer);
+    
+    // Zwischenergebnisse berechnen
+    const partials = [];
+    for (let i = d2.length - 1; i >= 0; i--) {
+      const digit = parseInt(d2[i]);
+      const partial = num1 * digit;
+      const zeros = d2.length - 1 - i;
+      partials.push({ value: partial, zeros, digits: toDigits(partial) });
+    }
+    
+    // Maximale Breite berechnen
+    const maxLen = Math.max(
+      d1.length + 1,
+      d2.length + 1,
+      ...partials.map(p => p.digits.length + p.zeros),
+      dR.length
+    );
+    const cols = maxLen + 1; // +1 für Operator
+    
+    let html = `<div class="calc-grid-wrap"><div class="calc-grid" style="grid-template-columns: repeat(${cols}, auto);">`;
+    
+    // Erste Zahl
+    const row1 = [{ val: '', class: 'empty' }];
+    d1.forEach(d => row1.push({ val: d }));
+    html += gridRow(row1, cols);
+    
+    // Zweite Zahl mit Operator
+    const row2 = [{ val: '·', class: 'op' }];
+    d2.forEach(d => row2.push({ val: d }));
+    html += gridRow(row2, cols);
+    
+    // Zwischenergebnisse
+    partials.forEach((p, idx) => {
+      const cells = idx === 0 ? [{ val: '', class: 'line-above' }] : [{ val: '', class: 'empty' }];
+      p.digits.forEach((d, di) => {
+        cells.push({ val: d, class: idx === 0 ? 'line-above' : '' });
       });
+      // Nullen am Ende (Stellenwert)
+      for (let z = 0; z < p.zeros; z++) {
+        cells.push({ val: '', class: 'empty' });
+      }
+      html += gridRow(cells, cols);
     });
     
-    $$('.btn-answer').forEach(btn => {
-      btn.addEventListener('click', () => checkAnswer(btn, task));
-    });
+    // Endergebnis (nur wenn mehr als ein Zwischenergebnis)
+    if (partials.length > 1) {
+      const rowR = [{ val: '', class: 'line-above' }];
+      dR.forEach(d => rowR.push({ val: d, class: 'line-above result' }));
+      html += gridRow(rowR, cols);
+    } else {
+      // Bei einstelligem Multiplikator: Ergebnis hervorheben
+      // (bereits in Zwischenergebnis enthalten)
+    }
     
-    setupKeyboard(task.options.length);
-  }
+    html += `</div></div>`;
+    return html;
+  };
 
-  function checkAnswer(btn, task) {
-    const userAnswer = String(btn.dataset.val);
-    const correctAnswer = String(task.a);
-    const isCorrect = userAnswer === correctAnswer;
+  // Division mit Kästchen (wie im Bild: 735:3=245)
+  const generateDivisionGrid = (dividend, divisor, quotient) => {
+    const dDividend = toDigits(dividend);
+    const dQuotient = toDigits(quotient);
     
-    $$('.btn-answer').forEach(b => b.disabled = true);
+    // Schritte der Division berechnen
+    const steps = [];
+    let remainder = 0;
+    let currentDigitIdx = 0;
+    
+    for (let i = 0; i < dDividend.length; i++) {
+      const current = remainder * 10 + parseInt(dDividend[i]);
+      
+      if (current >= divisor || steps.length > 0) {
+        const q = Math.floor(current / divisor);
+        const product = q * divisor;
+        const newRemainder = current - product;
+        
+        steps.push({
+          current,
+          quotientDigit: q,
+          product,
+          remainder: newRemainder,
+          position: i
+        });
+        
+        remainder = newRemainder;
+      } else {
+        remainder = current;
+      }
+    }
+    
+    // Breite berechnen
+    const cols = Math.max(dDividend.length + 4, dQuotient.length + 6);
+    
+    let html = `<div class="calc-grid-wrap">`;
+    html += `<div style="text-align: left;">`;
+    
+    // Kopfzeile: dividend : divisor = quotient
+    html += `<div class="calc-div-header">`;
+    html += `<span>${dividend}</span>`;
+    html += `<span style="color: var(--accent);">:</span>`;
+    html += `<span>${divisor}</span>`;
+    html += `<span style="color: var(--accent);">=</span>`;
+    html += `<span style="color: var(--color-success);">${quotient}</span>`;
+    html += `</div>`;
+    
+    // Rechenschritte
+    html += `<div style="margin-top: var(--s-2); font-family: var(--font); font-weight: 900;">`;
+    
+    steps.forEach((step, idx) => {
+      // Subtrahend (das Produkt)
+      html += `<div style="display: flex; align-items: center; gap: 4px; margin: 4px 0;">`;
+      html += `<span style="color: var(--color-error); width: 20px;">−</span>`;
+      html += `<span style="min-width: 40px;">${step.product}</span>`;
+      html += `</div>`;
+      
+      // Linie und Rest
+      html += `<div style="display: flex; align-items: center; gap: 4px; margin: 4px 0; padding-left: 24px; border-top: 2px solid var(--ink-primary);">`;
+      
+      // Rest + nächste Ziffer (wenn vorhanden)
+      const nextDigitIdx = step.position + 1;
+      if (nextDigitIdx < dDividend.length) {
+        const nextDigit = dDividend[nextDigitIdx];
+        html += `<span style="background: var(--color-warn-bg); padding: 2px 6px; border-radius: 4px;">${step.remainder}${nextDigit}</span>`;
+      } else {
+        html += `<span style="background: var(--color-success-bg); padding: 2px 6px; border-radius: 4px;">${step.remainder}</span>`;
+      }
+      
+      html += `</div>`;
+    });
+    
+    html += `</div>`;
+    html += `</div>`;
+    html += `</div>`;
+    
+    return html;
+  };
+
+  const generateExplanation = (task) => {
+    const { num1, num2, answer, op } = task;
+    let html = '';
+    
+    // Rechenweg mit Kästchen
+    html += `<div class="explain-section">`;
+    html += `<div class="explain-title">📝 Rechenweg</div>`;
+    
+    if (op === 'add') {
+      html += generateAdditionGrid(num1, num2, answer);
+    } else if (op === 'sub') {
+      html += generateSubtractionGrid(num1, num2, answer);
+    } else if (op === 'mul') {
+      html += generateMultiplicationGrid(num1, num2, answer);
+    } else if (op === 'div') {
+      html += generateDivisionGrid(num1, num2, answer);
+    }
+    
+    html += `</div>`;
+    
+    // Ergebnis
+    html += `<div class="explain-result">🎉 Die Antwort ist ${answer}</div>`;
+    
+    // Tipps je nach Rechenart
+    if (op === 'add') {
+      html += `<div class="explain-tip">💡 Tipp: Du kannst auch ${num2} + ${num1} rechnen – das Ergebnis ist gleich!</div>`;
+    } else if (op === 'mul' && num2 <= 5) {
+      html += `<div class="explain-tip">💡 Das bedeutet: ${Array(num2).fill(num1).join(' + ')} = ${answer}</div>`;
+    } else if (op === 'div') {
+      html += `<div class="explain-tip">💡 Probe: ${answer} × ${num2} = ${num1}</div>`;
+    }
+    
+    return html;
+  };
+
+  // === SOUND (Simple Beeps) ===
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  const playBeep = (frequency, duration, type = 'sine') => {
+    if (!state.settings.sound) return;
+    
+    // Ensure AudioContext is running (required after user interaction)
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+    
+    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+    
+    oscillator.start(audioCtx.currentTime);
+    oscillator.stop(audioCtx.currentTime + duration);
+  };
+  
+  const playCorrect = () => {
+    // Aufsteigender Doppelton (fröhlich)
+    playBeep(523, 0.12); // C5
+    setTimeout(() => playBeep(659, 0.15), 100); // E5
+  };
+  
+  const playIncorrect = () => {
+    // Tiefer, kurzer Ton (sanft)
+    playBeep(294, 0.2, 'triangle'); // D4
+  };
+  
+  const playClick = () => {
+    // Kurzer Klick-Sound
+    playBeep(880, 0.05); // A5
+  };
+
+  // === TIMER ===
+  const startTimer = () => {
+    if (!state.settings.timer) return;
+    stopTimer();
+    state.timerValue = 30;
+    $('timer').classList.add('active');
+    $('timer').classList.remove('warning');
+    $('time').textContent = state.timerValue;
+    
+    state.timerInterval = setInterval(() => {
+      state.timerValue--;
+      $('time').textContent = state.timerValue;
+      if (state.timerValue <= 10) $('timer').classList.add('warning');
+      if (state.timerValue <= 0) {
+        stopTimer();
+        if (!state.answered) {
+          answerQuestion(-1);
+          showFeedback('⏱️ Zeit abgelaufen!', 'error');
+        }
+      }
+    }, 1000);
+  };
+
+  const stopTimer = () => {
+    if (state.timerInterval) {
+      clearInterval(state.timerInterval);
+      state.timerInterval = null;
+    }
+    $('timer').classList.remove('active');
+  };
+
+  // === UI UPDATES ===
+  const updateStats = () => {
+    $('score').textContent = state.score;
+    $('total').textContent = state.total;
+    $('streak').textContent = state.streak;
+  };
+
+  const updateHistoryDots = () => {
+    $('history-dots').innerHTML = state.history.slice(-10).map(item => 
+      `<div class="dot ${item.correct ? 'correct' : 'incorrect'}">${item.correct ? '✓' : '✗'}</div>`
+    ).join('');
+  };
+
+  const showFeedback = (text, type = '') => {
+    const fb = $('feedback');
+    fb.className = 'feedback' + (type ? ' ' + type : '');
+    fb.innerHTML = `<span class="ficon">${type === 'success' ? '✅' : type === 'error' ? '❌' : '📝'}</span><span>${text}</span>`;
+  };
+
+  // === MODALS ===
+  const openModal = (id) => {
+    $(id).classList.add('open');
+  };
+
+  const closeModal = (id) => {
+    $(id).classList.remove('open');
+  };
+
+  const showStatsModal = () => {
+    const accuracy = state.total > 0 ? Math.round((state.score / state.total) * 100) : 0;
+    
+    let html = `<div class="stats-grid">
+      <div class="stat-card"><div class="stat-card-value">${state.total}</div><div class="stat-card-label">Aufgaben</div></div>
+      <div class="stat-card"><div class="stat-card-value">${state.score}</div><div class="stat-card-label">Richtig</div></div>
+      <div class="stat-card"><div class="stat-card-value">${accuracy}%</div><div class="stat-card-label">Genauigkeit</div></div>
+      <div class="stat-card"><div class="stat-card-value">${state.maxStreak}</div><div class="stat-card-label">Beste Serie</div></div>
+    </div>`;
+    
+    if (state.history.length > 0) {
+      html += `<div class="section-label">Letzte Aufgaben</div>`;
+      html += `<div class="history-list">`;
+      html += state.history.slice(-8).reverse().map(item => 
+        `<div class="history-item ${item.correct ? 'correct' : 'incorrect'}">${item.correct ? '✓' : '✗'} ${item.problem}</div>`
+      ).join('');
+      html += `</div>`;
+    }
+    
+    $('stats-content').innerHTML = html;
+    openModal('modal-stats');
+  };
+
+  // === GAME LOGIC ===
+  const startNewTask = () => {
+    state.currentTask = createTask(state.grade);
+    state.answered = false;
+    
+    const taskEl = $('task');
+    taskEl.textContent = state.currentTask.problem;
+    taskEl.className = 'task-text' + (state.currentTask.taskType === 'word' ? ' word-problem' : '');
+    
+    showFeedback('Tippe auf die richtige Lösung');
+    $('help-btn').disabled = false;
+    
+    const answersEl = $('answers');
+    answersEl.innerHTML = '';
+    state.currentTask.options.forEach((option, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.type = 'button';
+      btn.textContent = option;
+      btn.onclick = () => answerQuestion(index);
+      answersEl.appendChild(btn);
+    });
+    
+    startTimer();
+    playClick();
+  };
+
+  const answerQuestion = (selectedIndex) => {
+    if (state.answered) return;
+    state.answered = true;
+    stopTimer();
+    
+    const buttons = $('answers').querySelectorAll('.answer-btn');
+    const correctIndex = state.currentTask.correctIndex;
+    const isCorrect = selectedIndex === correctIndex;
+    
+    buttons[correctIndex].classList.add('correct');
+    
+    state.total++;
     
     if (isCorrect) {
-      btn.classList.add('correct');
-      State.streak++;
-      const coins = State.streak >= 5 ? 3 : 1;
-      State.addCoins(coins);
-      
-      if (State.streak >= 5) {
-        State.streak = 0;
-      }
+      state.score++;
+      state.streak++;
+      if (state.streak > state.maxStreak) state.maxStreak = state.streak;
+      showFeedback('Richtig! Super gemacht!', 'success');
+      playCorrect();
     } else {
-      btn.classList.add('wrong');
-      State.streak = 0;
-      const correctBtn = $$('.btn-answer').find(b => String(b.dataset.val) === correctAnswer);
-      setTimeout(() => {
-        if (correctBtn) correctBtn.classList.add('correct');
-      }, 300);
+      state.streak = 0;
+      if (selectedIndex >= 0) buttons[selectedIndex].classList.add('incorrect');
+      showFeedback(`Fast! Die Antwort ist ${state.currentTask.options[correctIndex]}`, 'error');
+      playIncorrect();
     }
     
-    setTimeout(() => {
-      $('#explBox').setAttribute('open', '');
-      $('#explBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 600);
+    state.history.push({
+      problem: state.currentTask.problem.replace('?', state.currentTask.options[correctIndex]),
+      correct: isCorrect
+    });
     
-    $('#btnNext').disabled = false;
-  }
+    updateStats();
+    updateHistoryDots();
+    saveState();
+  };
 
-  function setupKeyboard(optionCount) {
-    const handler = (e) => {
-      const key = e.key;
-      if (key >= '1' && key <= String(optionCount)) {
-        const index = parseInt(key) - 1;
-        const btn = $$('.btn-answer')[index];
-        if (btn && !btn.disabled) btn.click();
-      } else if (key === 'h' || key === 'H') {
-        $('#explBox').toggleAttribute('open');
-      }
+  // === EVENT LISTENERS ===
+
+  // Grade selection
+  $('grades').onclick = e => {
+    const btn = e.target.closest('.grade-btn');
+    if (!btn) return;
+    
+    state.grade = +btn.dataset.g;
+    document.querySelectorAll('.grade-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    saveState();
+  };
+
+  // Main buttons
+  $('start-btn').onclick = startNewTask;
+
+  $('help-btn').onclick = () => {
+    if (!state.currentTask) return;
+    $('help-content').innerHTML = generateExplanation(state.currentTask);
+    openModal('modal-help');
+  };
+
+  $('stats-btn').onclick = showStatsModal;
+  $('stats-pill').onclick = showStatsModal;
+  $('settings-btn').onclick = () => openModal('modal-settings');
+
+  // Sound toggle
+  $('snd').onclick = () => {
+    state.settings.sound = !state.settings.sound;
+    $('snd').textContent = state.settings.sound ? '🔊' : '🔇';
+    $('toggle-sound').classList.toggle('on', state.settings.sound);
+    saveState();
+  };
+
+  // Settings toggles
+  $('toggle-timer').onclick = () => {
+    state.settings.timer = !state.settings.timer;
+    $('toggle-timer').classList.toggle('on');
+    if (!state.settings.timer) stopTimer();
+    saveState();
+  };
+
+  $('toggle-sound').onclick = () => {
+    state.settings.sound = !state.settings.sound;
+    $('toggle-sound').classList.toggle('on');
+    $('snd').textContent = state.settings.sound ? '🔊' : '🔇';
+    saveState();
+  };
+
+  $('toggle-keyboard').onclick = () => {
+    state.settings.keyboard = !state.settings.keyboard;
+    $('toggle-keyboard').classList.toggle('on');
+    saveState();
+  };
+
+  // Modal close
+  ['help', 'settings', 'stats'].forEach(name => {
+    $(`ok-${name}`).onclick = () => closeModal(`modal-${name}`);
+    $(`modal-${name}`).onclick = e => {
+      if (e.target === $(`modal-${name}`)) closeModal(`modal-${name}`);
     };
-    
-    document.removeEventListener('keydown', window._keyHandler);
-    document.addEventListener('keydown', handler);
-    window._keyHandler = handler;
-  }
+  });
 
-  $('#btnBack').addEventListener('click', () => {
-    window.location.href = '../index.html';
-  });
+  // Keyboard
+  document.onkeydown = e => {
+    if (!state.settings.keyboard) return;
+    
+    if (e.key === 'Escape') {
+      ['help', 'settings', 'stats'].forEach(name => closeModal(`modal-${name}`));
+      return;
+    }
+    
+    if (document.querySelector('.overlay.open')) return;
+    
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      $('start-btn').click();
+    } else if (e.key.toLowerCase() === 'e' && state.currentTask) {
+      $('help-btn').click();
+    } else if ('1234'.includes(e.key)) {
+      const btn = $('answers').querySelectorAll('.answer-btn')[+e.key - 1];
+      if (btn) btn.click();
+    }
+  };
+
+  // === INIT ===
+  loadState();
+  updateStats();
+  updateHistoryDots();
   
-  $('#btnNext').addEventListener('click', () => {
-    $('#btnNext').disabled = true;
-    renderTask();
-  });
-  
-  updateCoins();
-  renderTask();
-  
-  console.log('✅ Mathe PRO geladen!');
-  console.log('🎨 Visuelle Rechenwege aktiv');
-  console.log('📐 Phase 1-3 Design-System');
+  console.log('✅ Mathe üben geladen.');
 })();
 </script>
 </body>
